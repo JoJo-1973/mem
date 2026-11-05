@@ -48,7 +48,7 @@
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .A, .X, .Y, .P
+; Registri Modificati:  .A, .X, .Y, .P (Negative, Zero)
 ; Dipendenze Esterne:   Nessuna
 ; ==============================================================================
 !macro m_Mov16 .mode_, .src_, .dest_ {
@@ -234,7 +234,7 @@
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .X, .Y, .P
+; Registri Modificati:  .X, .Y, .P (Negative, Zero)
 ; Dipendenze Esterne:   <system/standard.asm>
 ; ==============================================================================
 !macro m_Swap16 .addr1_, .addr2_ {
@@ -272,14 +272,14 @@
 ;   - .op2_ (2 byte, Macro)   : Secondo operando: valore (IMM) o indirizzo
 ;
 ; Output:
+;   - Flag Zero (1 bit, .P)   : 0 = .op1_ diverso da .op2_; 1 = uguali
 ;   - Flag Carry (1 bit, .P)  : 0 = .op1_ < .op2_; 1 = .op1_ >= .op2_ (senza
 ;                               segno)
-;   - Flag Zero (1 bit, .P)   : 0 = .op1_ diverso da .op2_; 1 = uguali
 ;
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .A, .P (Carry, Zero)
+; Registri Modificati:  .A, .P (Negative, Zero, Carry)
 ; Dipendenze Esterne:   Nessuna
 ; ==============================================================================
 !macro m_CmpU16 .mode_, .op1_, .op2_ {
@@ -475,17 +475,17 @@
 ;   - .op2_ (2 byte, Macro)     : Secondo operando: valore (IMM) o indirizzo
 ;
 ; Output:
-;   - Flag Carry (1 bit, .P)    : 0 = .op1_ < .op2_; 1 = .op1_ >= .op2_ (senza
-;                                 segno)
 ;   - Flag Negative (1 bit, .P) : 0 = bit 7 a 0; 1 = bit 7 a 1
 ;   - Flag oVerflow (1 bit, .P) : 0 = nessun overflow con segno; 1 = overflow
 ;                                 con segno
 ;   - Flag Zero (1 bit, .P)     : 0 = byte alto diverso da 0; 1 = uguale a 0
+;   - Flag Carry (1 bit, .P)    : 0 = .op1_ < .op2_; 1 = .op1_ >= .op2_ (senza
+;                                 segno)
 ;
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .A, .P (Carry, Negative, oVerflow, Zero)
+; Registri Modificati:  .A, .P (Negative, oVerflow, Zero, Carry)
 ; Dipendenze Esterne:   Nessuna
 ; ==============================================================================
 !macro m_CmpS16 .mode_, .op1_, .op2_ {
@@ -648,7 +648,7 @@
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .A, .X, .Y, .P (Carry, Negative, oVerflow, Zero)
+; Registri Modificati:  .A, .X, .Y, .P (Negative, oVerflow, Zero, Carry)
 ; Dipendenze Esterne:   Nessuna
 ; ==============================================================================
 !macro m_Inc16 .addr_ {
@@ -728,7 +728,7 @@
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .A, .X, .Y, .P (Carry, Negative, oVerflow, Zero)
+; Registri Modificati:  .A, .X, .Y, .P (Negative, oVerflow, Zero, Carry)
 ; Dipendenze Esterne:   Nessuna
 ; ==============================================================================
 !macro m_Dec16 .addr_ {

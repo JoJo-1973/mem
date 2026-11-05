@@ -48,7 +48,7 @@
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .A, .X, .Y, .P
+; Registri Modificati:  .A, .X, .Y, .P (Negative, Zero)
 ; Dipendenze Esterne:   Nessuna
 ; ==============================================================================
 !macro m_Mov24 .mode_, .src_, .dest_ {
@@ -189,7 +189,7 @@
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .X, .Y, .P
+; Registri Modificati:  .X, .Y, .P (Negative, Zero)
 ; Dipendenze Esterne:   <system/standard.asm>
 ; ==============================================================================
 !macro m_Swap24 .addr1_, .addr2_ {
@@ -228,14 +228,14 @@
 ;   - .op2_ (3 byte, Macro)   : Secondo operando: valore (IMM) o indirizzo
 ;
 ; Output:
+;   - Flag Zero (1 bit, .P)   : 0 = .op1_ diverso da .op2_; 1 = uguali
 ;   - Flag Carry (1 bit, .P)  : 0 = .op1_ < .op2_; 1 = .op1_ >= .op2_ (senza
 ;                               segno)
-;   - Flag Zero (1 bit, .P)   : 0 = .op1_ diverso da .op2_; 1 = uguali
 ;
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .A, .P (Carry, Zero)
+; Registri Modificati:  .A, .P (Negative, Zero, Carry)
 ; Dipendenze Esterne:   Nessuna
 ; ==============================================================================
 !macro m_CmpU24 .mode_, .op1_, .op2_ {
@@ -278,15 +278,16 @@
       } else {                                  ; Caso 4: .op1_ è un indirizzo, .op2_ è una costante a 24 bit.
         lda .op1_+2
         cmp #(.op2_ & $FF0000) >> 16
-        bne +
+        bne @Result_In_Flags
 
         lda .op1_+1
         cmp #(.op2_ & $00FF00) >> 8
-        bne +
+        bne @Result_In_Flags
 
         lda .op1_
         cmp #(.op2_ & $0000FF) >> 0
-        +
+
+      @Result_In_Flags:
       }
     } else if (.mode_ = "ABS") {
       !if (.op1_ = ".AXY") {                    ; Caso 1: .op1_ è una terna di registri, .op2_ è un indirizzo.
@@ -310,15 +311,16 @@
       } else {                                  ; Caso 2: .op1_ è un indirizzo, .op2_ è un indirizzo.
         lda+2 .op1_+2
         cmp+2 .op2_+2
-        bne +
+        bne @Result_In_Flags
 
         lda+2 .op1_+1
         cmp+2 .op2_+1
-        bne +
+        bne @Result_In_Flags
 
         lda+2 .op1_
         cmp+2 .op2_
-        +
+
+      @Result_In_Flags:
       }
     } else if (.mode_ = "ZP" ) {
       !if (.op1_ = ".AXY") {                    ; Caso 1: .op1_ è una terna di registri, .op2_ è un indirizzo.
@@ -342,15 +344,16 @@
       } else {                                  ; Caso 2: .op1_ è un indirizzo, .op2_ è un indirizzo.
         lda+1 .op1_+2
         cmp+1 .op2_+2
-        bne +
+        bne @Result_In_Flags
 
         lda+1 .op1_+1
         cmp+1 .op2_+1
-        bne +
+        bne @Result_In_Flags
 
         lda+1 .op1_
         cmp+1 .op2_
-        +
+
+      @Result_In_Flags:
       }
     } else {
       !error "Illegal addressing mode in m_CmpU24: ", .mode_
@@ -391,17 +394,17 @@
 ;   - .op2_ (3 byte, Macro)     : Secondo operando: valore (IMM) o indirizzo
 ;
 ; Output:
-;   - Flag Carry (1 bit, .P)    : 0 = .op1_ < .op2_; 1 = .op1_ >= .op2_ (senza
-;                                 segno)
 ;   - Flag Negative (1 bit, .P) : 0 = bit 7 a 0; 1 = bit 7 a 1
 ;   - Flag oVerflow (1 bit, .P) : 0 = nessun overflow con segno; 1 = overflow
 ;                                 con segno
 ;   - Flag Zero (1 bit, .P)     : 0 = byte alto diverso da 0; 1 = uguale a 0
+;   - Flag Carry (1 bit, .P)    : 0 = .op1_ < .op2_; 1 = .op1_ >= .op2_ (senza
+;                                 segno)
 ;
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .A, .P (Carry, Negative, oVerflow, Zero)
+; Registri Modificati:  .A, .P (Negative, oVerflow, Zero, Carry)
 ; Dipendenze Esterne:   Nessuna
 ; ==============================================================================
 !macro m_CmpS24 .mode_, .op1_, .op2_ {
@@ -547,7 +550,7 @@
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .A, .X, .Y, .P (Carry, Negative, oVerflow, Zero)
+; Registri Modificati:  .A, .X, .Y, .P (Negative, oVerflow, Zero, Carry)
 ; Dipendenze Esterne:   Nessuna
 ; ==============================================================================
 !macro m_Inc24 .addr_ {
@@ -609,7 +612,7 @@
 ; Variazione Stack (.S):
 ;   - Stabile
 ;
-; Registri Modificati:  .A, .X, .Y, .P (Carry, Negative, oVerflow, Zero)
+; Registri Modificati:  .A, .X, .Y, .P (Negative, oVerflow, Zero, Carry)
 ; Dipendenze Esterne:   Nessuna
 ; ==============================================================================
 !macro m_Dec24 .addr_ {
