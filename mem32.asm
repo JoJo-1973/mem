@@ -290,7 +290,7 @@
 ;   - .op2_ (4 byte, Macro)     : Secondo operando: valore (IMM) o indirizzo
 ;
 ; Output:
-;   - Flag Negative (1 bit, .P) : 0 = bit 7 a 0; 1 = bit 7 a 1
+;   - Flag Negative (1 bit, .P) : 0 = bit #7 a 0; 1 = bit #7 a 1
 ;   - Flag oVerflow (1 bit, .P) : 0 = nessun overflow con segno; 1 = overflow
 ;                                 con segno
 ;   - Flag Zero (1 bit, .P)     : 0 = byte alto diverso da 0; 1 = uguale a 0
