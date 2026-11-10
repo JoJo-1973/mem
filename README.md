@@ -73,7 +73,7 @@ Copia un valore costante o un puntatore a 16 bit dalla sorgente alla destinazion
        zero; uno dei due può essere una coppia di registri.
 ```
 
-Le coppie di registri si scrivono ".`<hi>``<lo>`" (byte alto e byte basso): .AX, .AY, .XY, .XA, .YA e .YX.
+Le coppie di registri si scrivono "`.<hi><lo>`" (byte alto e byte basso): `.AX`, `.AY`, `.XY`, `.XA`, `.YA` e `.YX`.
 
 Con `"IMM"` una costante con i due byte uguali (per esempio 0, `$FFFF` o `$4242`) usa una sequenza più breve. Con `"ABS"` e `"ZP"`, da indirizzo a indirizzo, la copia procede nel verso che non altera il sorgente se le due aree si sovrappongono.
 
@@ -118,7 +118,7 @@ Confronta due valori a 16 bit senza segno, secondo l'indirizzamento scelto. Il r
        zero; .op1_ può essere una coppia di registri.
 ```
 
-Le coppie di registri si scrivono ".`<hi>``<lo>`" (byte alto e byte basso): .AX, .AY, .XY, .XA, .YA e .YX. Con una coppia di registri come `.op1_` nessun registro viene alterato.
+Le coppie di registri si scrivono "`.<hi><lo>`" (byte alto e byte basso): `.AX`, `.AY`, `.XY`, `.XA`, `.YA` e `.YX`. Con una coppia di registri come `.op1_` nessun registro viene alterato.
 
 Con `"IMM"` e `.op1_` indirizzo, i confronti con 0 e con `$FFFF` usano una sequenza più breve.
 
@@ -148,7 +148,7 @@ Confronta due valori a 16 bit con segno, secondo l'indirizzamento scelto. Il fla
        zero; .op1_ può essere una coppia di registri.
 ```
 
-Le coppie di registri si scrivono ".`<hi>``<lo>`" (byte alto e byte basso): .AX, .AY, .XY, .XA, .YA e .YX.
+Le coppie di registri si scrivono "`.<hi><lo>`" (byte alto e byte basso): `.AX`, `.AY`, `.XY`, `.XA`, `.YA` e `.YX`.
 
 Con `"IMM"` e `.op1_` indirizzo o coppia di registri, il confronto con 0 usa una sequenza più breve a parità di flag. Il flag di Zero riflette solo il byte alto del risultato: per verificare l'uguaglianza si usa `m_CmpU16`.
 
@@ -169,7 +169,7 @@ Chiamata: `+m_Inc16 .addr_`
 
 Incrementa di 1 un contatore a 16 bit contenuto in un puntatore o in una coppia di registri.
 
-Le coppie di registri si scrivono ".`<hi>``<lo>`" (byte alto e byte basso): .AX, .AY, .XY, .XA, .YA e .YX.
+Le coppie di registri si scrivono "`.<hi><lo>`" (byte alto e byte basso): `.AX`, `.AY`, `.XY`, `.XA`, `.YA` e `.YX`.
 
 Con un indirizzo non viene alterato nessun registro.
 
@@ -192,7 +192,7 @@ Chiamata: `+m_Dec16 .addr_`
 
 Decrementa di 1 un contatore a 16 bit contenuto in un puntatore o in una coppia di registri.
 
-Le coppie di registri si scrivono ".`<hi>``<lo>`" (byte alto e byte basso): .AX, .AY, .XY, .XA, .YA e .YX.
+Le coppie di registri si scrivono "`.<hi><lo>`" (byte alto e byte basso): `.AX`, `.AY`, `.XY`, `.XA`, `.YA` e `.YX`.
 
 Con un indirizzo viene alterato `.A`; con una coppia di registri solo i due registri della coppia.
 
@@ -229,7 +229,7 @@ Copia un valore costante o un puntatore a 24 bit dalla sorgente alla destinazion
        zero; uno dei due può essere una terna di registri.
 ```
 
-Le terne di registri si scrivono ".`<hi>``<mid>``<lo>`" (byte alto, intermedio e basso): .`AXY` e .`YXA`.
+Le terne di registri si scrivono "`.<hi><mid><lo>`" (byte alto, intermedio e basso): `.AXY` e `.YXA`.
 
 Con `"IMM"` una costante con i tre byte uguali (per esempio 0, `$FFFFFF` o `$424242`) usa una sequenza più breve. Con `"ABS"` e `"ZP"`, da indirizzo a indirizzo, la copia procede nel verso che non altera il sorgente se le due aree si sovrappongono.
 
@@ -274,7 +274,7 @@ Confronta due valori a 24 bit senza segno, secondo l'indirizzamento scelto. Il r
        zero; .op1_ può essere una terna di registri.
 ```
 
-Le terne di registri si scrivono ".`<hi>``<mid>``<lo>`" (byte alto, intermedio e basso): .`AXY` e .`YXA`. Con una terna di registri come `.op1_` nessun registro viene alterato.
+Le terne di registri si scrivono "`.<hi><mid><lo>`" (byte alto, intermedio e basso): `.AXY` e `.YXA`. Con una terna di registri come `.op1_` nessun registro viene alterato.
 
 Con `"IMM"` e `.op1_` indirizzo, i confronti con 0 e con `$FFFFFF` usano una sequenza più breve.
 
@@ -304,9 +304,9 @@ Confronta due valori a 24 bit con segno, secondo l'indirizzamento scelto. Il fla
        zero; .op1_ può essere una terna di registri.
 ```
 
-Le terne di registri si scrivono ".`<hi>``<mid>``<lo>`" (byte alto, intermedio e basso): .`AXY` e .`YXA`. Con .`AXY` come `.op1_` la macro usa temporaneamente un byte dello stack e lo rilascia prima di terminare.
+Le terne di registri si scrivono "`.<hi><mid><lo>`" (byte alto, intermedio e basso): `.AXY` e `.YXA`. Con `.AXY` come `.op1_` la macro usa temporaneamente un byte dello stack e lo rilascia prima di terminare.
 
-Con `"IMM"` il confronto con 0 (indirizzo o terna di registri) e con `$FFFFFF` (indirizzo o .`AXY`) usa una sequenza più breve a parità di flag. Il flag di Zero riflette solo il byte alto del risultato: per verificare l'uguaglianza si usa `m_CmpU24`.
+Con `"IMM"` il confronto con 0 (indirizzo o terna di registri) e con `$FFFFFF` (indirizzo o `.AXY`) usa una sequenza più breve a parità di flag. Il flag di Zero riflette solo il byte alto del risultato: per verificare l'uguaglianza si usa `m_CmpU24`.
 
 Gli operandi devono essere definiti prima dell'invocazione, perché la macro li confronta per scegliere il ramo.
 
@@ -325,7 +325,7 @@ Chiamata: `+m_Inc24 .addr_`
 
 Incrementa di 1 un contatore a 24 bit contenuto in un puntatore o in una terna di registri.
 
-Le terne di registri si scrivono ".`<hi>``<mid>``<lo>`" (byte alto, intermedio e basso): .`AXY` e .`YXA`. Con un indirizzo non viene alterato nessun registro.
+Le terne di registri si scrivono "`.<hi><mid><lo>`" (byte alto, intermedio e basso): `.AXY` e `.YXA`. Con un indirizzo non viene alterato nessun registro.
 
 I flag Carry, Negative e oVerflow in uscita sono indefiniti.
 
@@ -346,7 +346,7 @@ Chiamata: `+m_Dec24 .addr_`
 
 Decrementa di 1 un contatore a 24 bit contenuto in un puntatore o in una terna di registri.
 
-Le terne di registri si scrivono ".`<hi>``<mid>``<lo>`" (byte alto, intermedio e basso): .`AXY` e .`YXA`. Con un indirizzo viene alterato `.A`; con una terna di registri solo i tre registri della terna.
+Le terne di registri si scrivono "`.<hi><mid><lo>`" (byte alto, intermedio e basso): `.AXY` e `.YXA`. Con un indirizzo viene alterato `.A`; con una terna di registri solo i tre registri della terna.
 
 I flag Carry, Negative e oVerflow in uscita sono indefiniti.
 
