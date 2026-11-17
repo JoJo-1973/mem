@@ -207,55 +207,55 @@
       } else {                                    ; Caso 3: .op1_ è un indirizzo, .op2_ è una costante a 32 bit.
         lda .op1_+3
         cmp #(.op2_ & $FF000000) >> 24
-        bne @Result_In_Flags
+        bne .Result_In_Flags
 
         lda .op1_+2
         cmp #(.op2_ & $00FF0000) >> 16
-        bne @Result_In_Flags
+        bne .Result_In_Flags
 
         lda .op1_+1
         cmp #(.op2_ & $0000FF00) >> 8
-        bne @Result_In_Flags
+        bne .Result_In_Flags
 
         lda .op1_
         cmp #(.op2_ & $000000FF) >> 0
 
-      @Result_In_Flags:
+      .Result_In_Flags:
       }
     } else if (.mode_ = "ABS") {
       lda+2 .op1_+3                               ; Caso 1: .op1_ è un indirizzo, .op2_ è un indirizzo.
       cmp+2 .op2_+3
-      bne @Result_In_Flags
+      bne .Result_In_Flags
 
       lda+2 .op1_+2
       cmp+2 .op2_+2
-      bne @Result_In_Flags
+      bne .Result_In_Flags
 
       lda+2 .op1_+1
       cmp+2 .op2_+1
-      bne @Result_In_Flags
+      bne .Result_In_Flags
 
       lda+2 .op1_
       cmp+2 .op2_
 
-    @Result_In_Flags:
+    .Result_In_Flags:
     } else if (.mode_ = "ZP" ) {
       lda+1 .op1_+3                               ; Caso 1: .op1_ è un indirizzo, .op2_ è un indirizzo.
       cmp+1 .op2_+3
-      bne @Result_In_Flags
+      bne .Result_In_Flags
 
       lda+1 .op1_+2
       cmp+1 .op2_+2
-      bne @Result_In_Flags
+      bne .Result_In_Flags
 
       lda+1 .op1_+1
       cmp+1 .op2_+1
-      bne @Result_In_Flags
+      bne .Result_In_Flags
 
       lda+1 .op1_
       cmp+1 .op2_
 
-    @Result_In_Flags:
+    .Result_In_Flags:
     } else {
       !error "Illegal addressing mode in m_CmpU32: ", .mode_
     }
@@ -385,17 +385,17 @@
 ; ==============================================================================
 !macro m_Inc32 .addr_ {
     inc .addr_
-    bne @No_Carry
+    bne .No_Carry                                 ; IF: il byte incrementato è diventato 0
 
     inc .addr_+1
-    bne @No_Carry
+    bne .No_Carry                                 ; IF: il byte incrementato è diventato 0
 
     inc .addr_+2
-    bne @No_Carry
+    bne .No_Carry                                 ; IF: il byte incrementato è diventato 0
 
     inc .addr_+3
 
-  @No_Carry:
+  .No_Carry:
 }
 
 ; ==============================================================================
@@ -421,22 +421,22 @@
 ; ==============================================================================
 !macro m_Dec32 .addr_ {
     lda .addr_
-    bne @Dec_Low
+    bne .Dec_Low
 
     lda .addr_+1
-    bne @Dec_Mid_Low
+    bne .Dec_Mid_Low
 
     lda .addr_+2
-    bne @Dec_Mid_High
+    bne .Dec_Mid_High
 
     dec .addr_+3
 
-  @Dec_Mid_High:
+  .Dec_Mid_High:
     dec .addr_+2
 
-  @Dec_Mid_Low:
+  .Dec_Mid_Low:
     dec .addr_+1
 
-  @Dec_Low:
+  .Dec_Low:
     dec .addr_
 }

@@ -26,8 +26,9 @@
 ;                 "ZP"   Pagina Zero: .src_ e .dest_ sono indirizzi in pagina
 ;                        zero; uno dei due può essere una terna di registri.
 ;
-;               Le terne di registri si scrivono ".<hi><mid><lo>" (byte alto,
-;               intermedio e basso): .AXY e .YXA.
+;               Le terne di registri sono stringhe, quindi si scrivono tra
+;               virgolette: ".<hi><mid><lo>" (byte alto, intermedio e basso),
+;               cioè ".AXY" e ".YXA".
 ;
 ;               Con "IMM" una costante con i tre byte uguali (per esempio 0,
 ;               $FFFFFF o $424242) usa una sequenza più breve. Con "ABS" e "ZP",
@@ -40,7 +41,9 @@
 ; Input:
 ;   - .mode_ (stringa, Macro) : Indirizzamento: "IMM", "ABS" oppure "ZP"
 ;   - .src_ (3 byte, Macro)   : Valore (IMM), indirizzo o terna di registri
+;                               (registri come stringa tra virgolette)
 ;   - .dest_ (3 byte, Macro)  : Indirizzo o terna di registri
+;                               (registri come stringa tra virgolette)
 ;
 ; Output:
 ;   - .dest_ (3 byte, Macro)  : Riceve il valore di .src_
@@ -212,9 +215,11 @@
 ;                 "ZP"   Pagina Zero: gli operandi sono indirizzi in pagina
 ;                        zero; .op1_ può essere una terna di registri.
 ;
-;               Le terne di registri si scrivono ".<hi><mid><lo>" (byte alto,
-;               intermedio e basso): .AXY e .YXA. Con una terna di registri come
-;               .op1_ nessun registro viene alterato.
+;               Le terne di registri sono stringhe, quindi si scrivono tra
+;               virgolette: ".<hi><mid><lo>" (byte alto, intermedio e basso),
+;               cioè ".AXY" e ".YXA".
+;               Con una terna di registri come .op1_ nessun registro viene
+;               alterato.
 ;
 ;               Con "IMM" e .op1_ indirizzo, i confronti con 0 e con $FFFFFF
 ;               usano una sequenza più breve.
@@ -225,6 +230,7 @@
 ; Input:
 ;   - .mode_ (stringa, Macro) : Indirizzamento: "IMM", "ABS" oppure "ZP"
 ;   - .op1_ (3 byte, Macro)   : Primo operando: indirizzo o terna di registri
+;                               (registri come stringa tra virgolette)
 ;   - .op2_ (3 byte, Macro)   : Secondo operando: valore (IMM) o indirizzo
 ;
 ; Output:
@@ -278,16 +284,16 @@
       } else {                                  ; Caso 4: .op1_ è un indirizzo, .op2_ è una costante a 24 bit.
         lda .op1_+2
         cmp #(.op2_ & $FF0000) >> 16
-        bne @Result_In_Flags
+        bne .Result_In_Flags
 
         lda .op1_+1
         cmp #(.op2_ & $00FF00) >> 8
-        bne @Result_In_Flags
+        bne .Result_In_Flags
 
         lda .op1_
         cmp #(.op2_ & $0000FF) >> 0
 
-      @Result_In_Flags:
+      .Result_In_Flags:
       }
     } else if (.mode_ = "ABS") {
       !if (.op1_ = ".AXY") {                    ; Caso 1: .op1_ è una terna di registri, .op2_ è un indirizzo.
@@ -311,16 +317,16 @@
       } else {                                  ; Caso 2: .op1_ è un indirizzo, .op2_ è un indirizzo.
         lda+2 .op1_+2
         cmp+2 .op2_+2
-        bne @Result_In_Flags
+        bne .Result_In_Flags
 
         lda+2 .op1_+1
         cmp+2 .op2_+1
-        bne @Result_In_Flags
+        bne .Result_In_Flags
 
         lda+2 .op1_
         cmp+2 .op2_
 
-      @Result_In_Flags:
+      .Result_In_Flags:
       }
     } else if (.mode_ = "ZP" ) {
       !if (.op1_ = ".AXY") {                    ; Caso 1: .op1_ è una terna di registri, .op2_ è un indirizzo.
@@ -344,16 +350,16 @@
       } else {                                  ; Caso 2: .op1_ è un indirizzo, .op2_ è un indirizzo.
         lda+1 .op1_+2
         cmp+1 .op2_+2
-        bne @Result_In_Flags
+        bne .Result_In_Flags
 
         lda+1 .op1_+1
         cmp+1 .op2_+1
-        bne @Result_In_Flags
+        bne .Result_In_Flags
 
         lda+1 .op1_
         cmp+1 .op2_
 
-      @Result_In_Flags:
+      .Result_In_Flags:
       }
     } else {
       !error "Illegal addressing mode in m_CmpU24: ", .mode_
@@ -375,10 +381,11 @@
 ;                 "ZP"   Pagina Zero: gli operandi sono indirizzi in pagina
 ;                        zero; .op1_ può essere una terna di registri.
 ;
-;               Le terne di registri si scrivono ".<hi><mid><lo>" (byte alto,
-;               intermedio e basso): .AXY e .YXA. Con .AXY come .op1_ la macro
-;               usa temporaneamente un byte dello stack e lo rilascia prima di
-;               terminare.
+;               Le terne di registri sono stringhe, quindi si scrivono tra
+;               virgolette: ".<hi><mid><lo>" (byte alto, intermedio e basso),
+;               cioè ".AXY" e ".YXA".
+;               Con ".AXY" come .op1_ la macro usa temporaneamente un byte
+;               dello stack e lo rilascia prima di terminare.
 ;
 ;               Con "IMM" il confronto con 0 (indirizzo o terna di registri) e
 ;               con $FFFFFF (indirizzo o .AXY) usa una sequenza più breve a
@@ -391,6 +398,7 @@
 ; Input:
 ;   - .mode_ (stringa, Macro)   : Indirizzamento: "IMM", "ABS" oppure "ZP"
 ;   - .op1_ (3 byte, Macro)     : Primo operando: indirizzo o terna di registri
+;                                 (registri come stringa tra virgolette)
 ;   - .op2_ (3 byte, Macro)     : Secondo operando: valore (IMM) o indirizzo
 ;
 ; Output:
@@ -531,9 +539,10 @@
 ; Descrizione:  Incrementa di 1 un contatore a 24 bit contenuto in un puntatore
 ;               o in una terna di registri.
 ;
-;               Le terne di registri si scrivono ".<hi><mid><lo>" (byte alto,
-;               intermedio e basso): .AXY e .YXA. Con un indirizzo non viene
-;               alterato nessun registro.
+;               Le terne di registri sono stringhe, quindi si scrivono tra
+;               virgolette: ".<hi><mid><lo>" (byte alto, intermedio e basso),
+;               cioè ".AXY" e ".YXA".
+;               Con un indirizzo non viene alterato nessun registro.
 ;
 ;               I flag Carry, Negative e oVerflow in uscita sono indefiniti.
 ;
@@ -542,6 +551,7 @@
 ;
 ; Input:
 ;   - .addr_ (3 byte, Macro) : Contatore: indirizzo o terna di registri
+;                              (registri come stringa tra virgolette)
 ;
 ; Output:
 ;   - .addr_ (3 byte, Macro) : Contatore incrementato (da $FFFFFF a $000000)
@@ -592,10 +602,11 @@
 ; Descrizione:  Decrementa di 1 un contatore a 24 bit contenuto in un puntatore
 ;               o in una terna di registri.
 ;
-;               Le terne di registri si scrivono ".<hi><mid><lo>" (byte alto,
-;               intermedio e basso): .AXY e .YXA. Con un indirizzo viene
-;               alterato .A; con una terna di registri solo i tre registri della
-;               terna.
+;               Le terne di registri sono stringhe, quindi si scrivono tra
+;               virgolette: ".<hi><mid><lo>" (byte alto, intermedio e basso),
+;               cioè ".AXY" e ".YXA".
+;               Con un indirizzo viene alterato .A; con una terna di registri
+;               solo i tre registri della terna.
 ;
 ;               I flag Carry, Negative e oVerflow in uscita sono indefiniti.
 ;
@@ -604,6 +615,7 @@
 ;
 ; Input:
 ;   - .addr_ (3 byte, Macro) : Contatore: indirizzo o terna di registri
+;                              (registri come stringa tra virgolette)
 ;
 ; Output:
 ;   - .addr_ (3 byte, Macro) : Contatore decrementato (da $000000 a $FFFFFF)
@@ -618,47 +630,47 @@
 !macro m_Dec24 .addr_ {
     !if (.addr_ = ".AXY") {                     ; Caso 1: .addr_ è una terna di registri.
       cpy #0
-      bne @Dec_Low
+      bne .Dec_Low
 
       cpx #0
-      bne @Dec_Mid
+      bne .Dec_Mid
 
       sec
       sbc #1
 
-    @Dec_Mid:
+    .Dec_Mid:
       dex
 
-    @Dec_Low:
+    .Dec_Low:
       dey
     } else if (.addr_ = ".YXA") {
       cmp #0
-      bne @Dec_Low
+      bne .Dec_Low
 
       cpx #0
-      bne @Dec_Mid
+      bne .Dec_Mid
 
       dey
 
-    @Dec_Mid:
+    .Dec_Mid:
       dex
 
-    @Dec_Low:
+    .Dec_Low:
       sec
       sbc #1
     } else {                                    ; Caso 2: .addr_ è un indirizzo.
       lda .addr_
-      bne @Dec_Low
+      bne .Dec_Low
 
       lda .addr_+1
-      bne @Dec_Mid
+      bne .Dec_Mid
 
       dec .addr_+2
 
-    @Dec_Mid:
+    .Dec_Mid:
       dec .addr_+1
 
-    @Dec_Low:
+    .Dec_Low:
       dec .addr_
     }
 }

@@ -26,8 +26,9 @@
 ;                 "ZP"   Pagina Zero: .src_ e .dest_ sono indirizzi in pagina
 ;                        zero; uno dei due può essere una coppia di registri.
 ;
-;               Le coppie di registri si scrivono ".<hi><lo>" (byte alto e byte
-;               basso): .AX, .AY, .XY, .XA, .YA e .YX.
+;               Le coppie di registri sono stringhe, quindi si scrivono tra
+;               virgolette: ".<hi><lo>" (byte alto e byte basso), cioè ".AX",
+;               ".AY", ".XY", ".XA", ".YA" e ".YX".
 ;
 ;               Con "IMM" una costante con i due byte uguali (per esempio 0,
 ;               $FFFF o $4242) usa una sequenza più breve. Con "ABS" e "ZP", da
@@ -40,7 +41,9 @@
 ; Input:
 ;   - .mode_ (stringa, Macro) : Indirizzamento: "IMM", "ABS" oppure "ZP"
 ;   - .src_ (2 byte, Macro)   : Valore (IMM), indirizzo o coppia di registri
+;                               (registri come stringa tra virgolette)
 ;   - .dest_ (2 byte, Macro)  : Indirizzo o coppia di registri
+;                               (registri come stringa tra virgolette)
 ;
 ; Output:
 ;   - .dest_ (2 byte, Macro)  : Riceve il valore di .src_
@@ -256,9 +259,11 @@
 ;                 "ZP"   Pagina Zero: gli operandi sono indirizzi in pagina
 ;                        zero; .op1_ può essere una coppia di registri.
 ;
-;               Le coppie di registri si scrivono ".<hi><lo>" (byte alto e byte
-;               basso): .AX, .AY, .XY, .XA, .YA e .YX. Con una coppia di
-;               registri come .op1_ nessun registro viene alterato.
+;               Le coppie di registri sono stringhe, quindi si scrivono tra
+;               virgolette: ".<hi><lo>" (byte alto e byte basso), cioè ".AX",
+;               ".AY", ".XY", ".XA", ".YA" e ".YX".
+;               Con una coppia di registri come .op1_ nessun registro viene
+;               alterato.
 ;
 ;               Con "IMM" e .op1_ indirizzo, i confronti con 0 e con $FFFF usano
 ;               una sequenza più breve.
@@ -269,6 +274,7 @@
 ; Input:
 ;   - .mode_ (stringa, Macro) : Indirizzamento: "IMM", "ABS" oppure "ZP"
 ;   - .op1_ (2 byte, Macro)   : Primo operando: indirizzo o coppia di registri
+;                               (registri come stringa tra virgolette)
 ;   - .op2_ (2 byte, Macro)   : Secondo operando: valore (IMM) o indirizzo
 ;
 ; Output:
@@ -458,8 +464,9 @@
 ;                 "ZP"   Pagina Zero: gli operandi sono indirizzi in pagina
 ;                        zero; .op1_ può essere una coppia di registri.
 ;
-;               Le coppie di registri si scrivono ".<hi><lo>" (byte alto e byte
-;               basso): .AX, .AY, .XY, .XA, .YA e .YX.
+;               Le coppie di registri sono stringhe, quindi si scrivono tra
+;               virgolette: ".<hi><lo>" (byte alto e byte basso), cioè ".AX",
+;               ".AY", ".XY", ".XA", ".YA" e ".YX".
 ;
 ;               Con "IMM" e .op1_ indirizzo o coppia di registri, il confronto
 ;               con 0 usa una sequenza più breve a parità di flag. Il flag di
@@ -472,6 +479,7 @@
 ; Input:
 ;   - .mode_ (stringa, Macro)   : Indirizzamento: "IMM", "ABS" oppure "ZP"
 ;   - .op1_ (2 byte, Macro)     : Primo operando: indirizzo o coppia di registri
+;                                 (registri come stringa tra virgolette)
 ;   - .op2_ (2 byte, Macro)     : Secondo operando: valore (IMM) o indirizzo
 ;
 ; Output:
@@ -628,8 +636,9 @@
 ; Descrizione:  Incrementa di 1 un contatore a 16 bit contenuto in un puntatore
 ;               o in una coppia di registri.
 ;
-;               Le coppie di registri si scrivono ".<hi><lo>" (byte alto e byte
-;               basso): .AX, .AY, .XY, .XA, .YA e .YX.
+;               Le coppie di registri sono stringhe, quindi si scrivono tra
+;               virgolette: ".<hi><lo>" (byte alto e byte basso), cioè ".AX",
+;               ".AY", ".XY", ".XA", ".YA" e ".YX".
 ;
 ;               Con un indirizzo non viene alterato nessun registro.
 ;
@@ -640,6 +649,7 @@
 ;
 ; Input:
 ;   - .addr_ (2 byte, Macro)  : Contatore: indirizzo o coppia di registri
+;                               (registri come stringa tra virgolette)
 ;
 ; Output:
 ;   - .addr_ (2 byte, Macro)  : Contatore incrementato (da $FFFF a $0000)
@@ -707,8 +717,9 @@
 ; Descrizione:  Decrementa di 1 un contatore a 16 bit contenuto in un puntatore
 ;               o in una coppia di registri.
 ;
-;               Le coppie di registri si scrivono ".<hi><lo>" (byte alto e byte
-;               basso): .AX, .AY, .XY, .XA, .YA e .YX.
+;               Le coppie di registri sono stringhe, quindi si scrivono tra
+;               virgolette: ".<hi><lo>" (byte alto e byte basso), cioè ".AX",
+;               ".AY", ".XY", ".XA", ".YA" e ".YX".
 ;
 ;               Con un indirizzo viene alterato .A; con una coppia di
 ;               registri solo i due registri della coppia.
@@ -720,6 +731,7 @@
 ;
 ; Input:
 ;   - .addr_ (2 byte, Macro)  : Contatore: indirizzo o coppia di registri
+;                               (registri come stringa tra virgolette)
 ;
 ; Output:
 ;   - .addr_ (2 byte, Macro)  : Contatore decrementato (da $0000 a $FFFF)
