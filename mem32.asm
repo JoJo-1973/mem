@@ -9,9 +9,11 @@
 ;                 m_CmpS32  Confronta due valori a 32 bit con segno
 ;                 m_Inc32   Incrementa un contatore a 32 bit
 ;                 m_Dec32   Decrementa un contatore a 32 bit
-; DIPENDENZE:     Nessuna
+; DIPENDENZE:     <system/standard.asm>
 ; REQUISITI ZP:   Nessuno
 ; ==============================================================================
+
+!source "../system/standard.asm", once
 
 ; ==============================================================================
 ; MACRO: m_Mov32

@@ -9,9 +9,11 @@
 ;                 m_CmpS16  Confronta due valori a 16 bit con segno
 ;                 m_Inc16   Incrementa un contatore a 16 bit
 ;                 m_Dec16   Decrementa un contatore a 16 bit
-; DIPENDENZE:     Nessuna
+; DIPENDENZE:     <system/standard.asm>
 ; REQUISITI ZP:   Nessuno
 ; ==============================================================================
+
+!source "../system/standard.asm", once
 
 ; ==============================================================================
 ; MACRO: m_Mov16

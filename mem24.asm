@@ -9,9 +9,11 @@
 ;                 m_CmpS24  Confronta due valori a 24 bit con segno
 ;                 m_Inc24   Incrementa un contatore a 24 bit
 ;                 m_Dec24   Decrementa un contatore a 24 bit
-; DIPENDENZE:     Nessuna
+; DIPENDENZE:     <system/standard.asm>
 ; REQUISITI ZP:   Nessuno
 ; ==============================================================================
+
+!source "../system/standard.asm", once
 
 ; ==============================================================================
 ; MACRO: m_Mov24
